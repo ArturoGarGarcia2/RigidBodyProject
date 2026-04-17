@@ -25,10 +25,9 @@ public class GravitableObject : MonoBehaviour
         rb.AddForce(gravityDir * gravityForce, ForceMode.Acceleration);
     }
 
-    public Vector3 GetCurrentGravityDir()
-    {
-        return useLocalGravity ? localGravityDir : GravityManager.worldGravityDir;
-    }
+    public Vector3 GetCurrentGravityDir() => useLocalGravity 
+        ? localGravityDir 
+        : GravityManager.worldGravityDir;
 
     public void ChangeGravity(Vector3 newDir)
     {
