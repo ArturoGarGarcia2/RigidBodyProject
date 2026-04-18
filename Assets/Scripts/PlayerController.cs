@@ -57,9 +57,26 @@ public class PlayerController : GravitableObject
 
     private void ApplyMovement()
     {
-        Vector3 targetVelocity = (transform.forward * moveInput.y + transform.right * moveInput.x) * moveSpeed;
+        // 1. Calculamos el movimiento deseado del jugador (local)
+        Vector3 targetMoveVelocity = (transform.forward * moveInput.y + transform.right * moveInput.x) * moveSpeed;
+        
+        // 2. Obtenemos la velocidad actual vertical (para no perder el salto/gravedad)
         float verticalVelocity = Vector3.Dot(rb.linearVelocity, transform.up);
-        rb.linearVelocity = targetVelocity + (transform.up * verticalVelocity);
+        
+        // 3. Calculamos la velocidad de la plataforma (si existe)
+        Vector3 platformVelocity = Vector3.zero;
+        if (transform.parent != null)
+        {
+            // Intentamos obtener el Rigidbody del padre para saber cuánto se mueve
+            Rigidbody parentRb = transform.parent.GetComponentInParent<Rigidbody>();
+            if (parentRb != null)
+            {
+                platformVelocity = parentRb.linearVelocity;
+            }
+        }
+
+        // 4. La velocidad final es: movimiento + plataforma + gravedad actual
+        rb.linearVelocity = targetMoveVelocity + platformVelocity + (transform.up * verticalVelocity);
     }
 
     private void AlignWithCurrentGravity()

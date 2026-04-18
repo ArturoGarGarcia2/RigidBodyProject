@@ -34,11 +34,12 @@ public class GravitableObject : MonoBehaviour
         useLocalGravity = true;
         localGravityDir = newDir.normalized;
 
-        // Limpieza de velocidad
-        rb.linearVelocity = Vector3.ProjectOnPlane(rb.linearVelocity, localGravityDir);
+        // En lugar de ProjectOnPlane, reseteamos a cero si quieres control total
+        rb.linearVelocity = Vector3.zero; 
+        rb.angularVelocity = Vector3.zero;
 
-        // Empujón opcional
-        rb.AddForce(localGravityDir * 5f, ForceMode.Impulse);
+        // Quita o reduce este impulso si es muy fuerte
+        // rb.AddForce(localGravityDir * 5f, ForceMode.Impulse); 
     }
 
     public void ResetToWorldGravity()
