@@ -14,7 +14,7 @@ public class GravityZone : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         var gravObj = other.GetComponent<GravitableObject>();
         if (gravObj != null)
@@ -26,7 +26,7 @@ public class GravityZone : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
         var gravObj = other.GetComponent<GravitableObject>();
         if (gravObj != null)

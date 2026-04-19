@@ -9,6 +9,7 @@ public class GravitableObject : MonoBehaviour
     public bool useLocalGravity = false;
     public Vector3 localGravityDir = Vector3.down;
     public float gravityForce = 9.81f;
+    public bool isHeld = false;
 
     protected virtual void Awake()
     {
@@ -18,6 +19,8 @@ public class GravitableObject : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        if (isHeld) return;
+
         Vector3 gravityDir = useLocalGravity 
             ? localGravityDir 
             : GravityManager.worldGravityDir;

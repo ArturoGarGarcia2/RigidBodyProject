@@ -15,4 +15,6 @@ public static class GravityManager
         worldGravityDir = direction.normalized;
         Debug.Log("Gravedad global: " + worldGravityDir);
     }
+
+    public static void InvertGravity() => worldGravityDir = worldGravityDir*(-1);
 }
