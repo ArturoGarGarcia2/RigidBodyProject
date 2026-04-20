@@ -10,7 +10,12 @@ public class GravityZone : MonoBehaviour
     {
         foreach (Renderer renderer in gravityFieldRenderers)
         {
-            renderer.material.SetColor("_BaseColor", GetColorFromEnum(dir));
+            Debug.Log($"{renderer.name} - {renderer.sharedMaterial.name} - {renderer.sharedMaterial.shader.name}");
+            Color c = GetColorFromEnum(dir);
+
+            renderer.material.SetColor("_BaseColor", c);
+            renderer.material.SetColor("_EmissionColor", c * 2f); // potencia
+            renderer.material.EnableKeyword("_EMISSION");
         }
     }
 
@@ -20,10 +25,17 @@ public class GravityZone : MonoBehaviour
         if (gravObj != null)
         {
             gravObj.ChangeGravity(GetVectorFromEnum(dir));
-            gravObj.useLocalGravity = true;
 
-            other.transform.SetParent(parent);
+            if(parent != null)
+                other.transform.SetParent(parent);
         }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        var gravObj = other.GetComponent<GravitableObject>();
+        if (gravObj != null)
+            gravObj.useLocalGravity = true;
     }
 
     public void OnTriggerExit(Collider other)
@@ -34,7 +46,8 @@ public class GravityZone : MonoBehaviour
             gravObj.ResetToWorldGravity();
             gravObj.useLocalGravity = false;
 
-            other.transform.SetParent(null);
+            if(parent != null)
+                other.transform.SetParent(null);
         }
     }
 
@@ -54,13 +67,13 @@ public class GravityZone : MonoBehaviour
     private Color GetColorFromEnum(Direction d) { 
         switch (d)
         {
-            case Direction.UP:      return Color.white;
-            case Direction.DOWN:    return Color.yellow;
-            case Direction.LEFT:    return Color.green;
-            case Direction.RIGHT:   return Color.blue;
+            case Direction.UP:      return Color.yellow;
+            case Direction.DOWN:    return Color.white;
+            case Direction.LEFT:    return new Color(0.3f, 1f, 0.3f);
+            case Direction.RIGHT:   return new Color(0.3f, 0.3f, 1f);
             case Direction.FORWARD: return Color.red;
             case Direction.BACK:    return new Color(1f, .5f, 0f);
-            default:                return Color.yellow; 
+            default:                return Color.white; 
         }
     }
 }

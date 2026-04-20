@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerController : GravitableObject
 {
@@ -31,6 +32,7 @@ public class PlayerController : GravitableObject
 
     Rigidbody grabbedRb;
     Collider grabbedCollider;
+    public Light[] gravityLights;
 
 
     private Vector2 moveInput;
@@ -70,12 +72,12 @@ public class PlayerController : GravitableObject
 
     public bool IsInteracting() => isInteracting;
 
-    // public void OnGravityDown()    => GravityManager.ChangeWorldGravity(Vector3.down);
-    // public void OnGravityUp()      => GravityManager.ChangeWorldGravity(Vector3.up);
-    // public void OnGravityLeft()    => GravityManager.ChangeWorldGravity(Vector3.left);
-    // public void OnGravityRight()   => GravityManager.ChangeWorldGravity(Vector3.right);
-    // public void OnGravityForward() => GravityManager.ChangeWorldGravity(Vector3.forward);
-    // public void OnGravityBack()    => GravityManager.ChangeWorldGravity(Vector3.back);
+    public void OnGravityDown()    => GravityManager.ChangeWorldGravity(Vector3.down);
+    public void OnGravityUp()      => GravityManager.ChangeWorldGravity(Vector3.up);
+    public void OnGravityLeft()    => GravityManager.ChangeWorldGravity(Vector3.left);
+    public void OnGravityRight()   => GravityManager.ChangeWorldGravity(Vector3.right);
+    public void OnGravityForward() => GravityManager.ChangeWorldGravity(Vector3.forward);
+    public void OnGravityBack()    => GravityManager.ChangeWorldGravity(Vector3.back);
 
 
     // --- LÓGICA DE FÍSICAS ---
@@ -98,6 +100,15 @@ public class PlayerController : GravitableObject
     void LateUpdate()
     {
         ApplyLook();
+    }
+
+    void Update()
+    {
+        foreach(Light l in gravityLights)
+            if(!useLocalGravity)
+                l.color = GravityManager.GetColorFromGravity(GravityManager.worldGravityDir);
+            else
+                l.color = GravityManager.GetColorFromGravity(localGravityDir);
     }
 
     private void ApplyMovement()

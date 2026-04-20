@@ -37,8 +37,7 @@ public class GravitableObject : MonoBehaviour
         useLocalGravity = true;
         localGravityDir = newDir.normalized;
 
-        // En lugar de ProjectOnPlane, reseteamos a cero si quieres control total
-        rb.linearVelocity = Vector3.zero; 
+        // rb.linearVelocity = Vector3.zero; 
         rb.angularVelocity = Vector3.zero;
 
         // Quita o reduce este impulso si es muy fuerte
