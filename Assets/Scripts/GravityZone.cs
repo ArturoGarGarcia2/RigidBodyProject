@@ -69,8 +69,8 @@ public class GravityZone : MonoBehaviour
         {
             case Direction.UP:      return Color.yellow;
             case Direction.DOWN:    return Color.white;
-            case Direction.LEFT:    return new Color(0.3f, 1f, 0.3f);
-            case Direction.RIGHT:   return new Color(0.3f, 0.3f, 1f);
+            case Direction.LEFT:    return Color.green;
+            case Direction.RIGHT:   return Color.blue;
             case Direction.FORWARD: return Color.red;
             case Direction.BACK:    return new Color(1f, .5f, 0f);
             default:                return Color.white; 
