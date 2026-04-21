@@ -10,7 +10,6 @@ public class GravityZone : MonoBehaviour
     {
         foreach (Renderer renderer in gravityFieldRenderers)
         {
-            Debug.Log($"{renderer.name} - {renderer.sharedMaterial.name} - {renderer.sharedMaterial.shader.name}");
             Color c = GetColorFromEnum(dir);
 
             renderer.material.SetColor("_BaseColor", c);

@@ -188,8 +188,6 @@ public class PlayerController : GravitableObject
 
         if (Physics.Raycast(ray, out hit, grabRange, grabbableLayer))
         {
-            Debug.Log("Hit: " + hit.collider.name);
-
             Rigidbody rb = hit.collider.GetComponentInParent<Rigidbody>();
 
             if (rb != null)
@@ -253,7 +251,6 @@ public class PlayerController : GravitableObject
 
     public void OnGrab()
     {
-        Debug.Log("Agarrando");
         if (grabbedRb == null)
             TryGrab();
         else
@@ -266,5 +263,16 @@ public class PlayerController : GravitableObject
         Vector3 dir = targetPos - grabbedRb.position;
 
         grabbedRb.linearVelocity = dir * holdForce;
+    }
+
+    void Teleport(GravitableObject obj, Transform portalA, Transform portalB)
+    {
+        Rigidbody rb = obj.GetComponent<Rigidbody>();
+
+        obj.transform.position = PortalUtils.TransformPosition(obj.transform, portalA, portalB);
+
+        obj.transform.rotation = PortalUtils.TransformRotation(obj.transform.rotation, portalA, portalB);
+
+        rb.linearVelocity = PortalUtils.TransformDirection(rb.linearVelocity, portalA, portalB);
     }
 }
