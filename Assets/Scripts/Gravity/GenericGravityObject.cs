@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class GenericGravityBody : GravitableObject
 {
+
     [Header("Restricciones de Movimiento")]
     public bool allowX = true;
     public bool allowY = true;

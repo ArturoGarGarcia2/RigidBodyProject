@@ -11,10 +11,18 @@ public class GravitableObject : MonoBehaviour
     public float gravityForce = 9.81f;
     public bool isHeld = false;
 
+    protected PortalTraveller traveller;
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
+
+        traveller = GetComponent<PortalTraveller>();
+        if (traveller == null)
+            traveller = gameObject.AddComponent<PortalTraveller>();
+
+        traveller.graphicsObject = transform.GetChild(0).gameObject;
     }
 
     protected virtual void FixedUpdate()

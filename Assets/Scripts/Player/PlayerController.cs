@@ -5,7 +5,6 @@ using Unity.VisualScripting;
 
 public class PlayerController : GravitableObject
 {
-
     public Animator animator;
     public TextMeshProUGUI debugTxt;
 
@@ -38,6 +37,7 @@ public class PlayerController : GravitableObject
     private Vector2 moveInput;
     private Vector2 lookInput;
     private float cameraPitch = 0f;
+    [SerializeField] GameObject graphicsObject;
 
     protected override void Awake()
     {
@@ -45,8 +45,10 @@ public class PlayerController : GravitableObject
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         animator.applyRootMotion = false;
-    }
 
+        traveller = GetComponent<PortalTraveller>();
+        traveller.graphicsObject = graphicsObject; // 🔥 NO this.gameObject
+    }
 
     // --- INPUT EVENTS ---
     public void OnMove(InputValue value) => moveInput = value.Get<Vector2>();
@@ -263,16 +265,5 @@ public class PlayerController : GravitableObject
         Vector3 dir = targetPos - grabbedRb.position;
 
         grabbedRb.linearVelocity = dir * holdForce;
-    }
-
-    void Teleport(GravitableObject obj, Transform portalA, Transform portalB)
-    {
-        Rigidbody rb = obj.GetComponent<Rigidbody>();
-
-        obj.transform.position = PortalUtils.TransformPosition(obj.transform, portalA, portalB);
-
-        obj.transform.rotation = PortalUtils.TransformRotation(obj.transform.rotation, portalA, portalB);
-
-        rb.linearVelocity = PortalUtils.TransformDirection(rb.linearVelocity, portalA, portalB);
     }
 }
