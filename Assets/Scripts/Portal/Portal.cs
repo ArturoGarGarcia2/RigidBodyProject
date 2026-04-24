@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Portal : MonoBehaviour {
+    public static bool freezePortals = false;
+    
     [Header ("Main Settings")]
     public Portal linkedPortal;
     public MeshRenderer screen;
@@ -315,5 +317,17 @@ public class Portal : MonoBehaviour {
         if (linkedPortal != null) {
             linkedPortal.linkedPortal = this;
         }
+    }
+
+    public void ResetPortal()
+    {
+        trackedTravellers.Clear();
+    }
+
+    public void ForceRenderNow()
+    {
+        PrePortalRender();
+        Render();
+        PostPortalRender();
     }
 }

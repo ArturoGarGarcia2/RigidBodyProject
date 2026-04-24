@@ -10,9 +10,22 @@ public class PortalTraveller : MonoBehaviour {
     public Material[] originalMaterials { get; set; }
     public Material[] cloneMaterials { get; set; }
 
-    public virtual void Teleport (Transform fromPortal, Transform toPortal, Vector3 pos, Quaternion rot) {
+    public virtual void Teleport(Transform fromPortal, Transform toPortal, Vector3 pos, Quaternion rot)
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+
+        Vector3 oldVelocity = rb.linearVelocity;
+
+        // Transformar posición y rotación
         transform.position = pos;
         transform.rotation = rot;
+
+        // 🔥 Transformar la velocidad al espacio del otro portal
+        Vector3 newVelocity = toPortal.TransformDirection(
+            fromPortal.InverseTransformDirection(oldVelocity)
+        );
+
+        rb.linearVelocity = newVelocity;
     }
 
     // Called when first touches portal

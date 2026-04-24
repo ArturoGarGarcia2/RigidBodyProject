@@ -3,7 +3,7 @@ using UnityEngine;
 public static class GravityManager
 {
     public static Vector3 worldGravityDir = Vector3.down;
-    public static float gravityForce = 9.81f;
+    public static float gravityForce = 9.81f*2;
 
     public static Vector3 GetGravity()
     {

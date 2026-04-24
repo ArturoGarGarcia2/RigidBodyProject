@@ -10,17 +10,22 @@ public class MainCamera : MonoBehaviour {
 
     void LateUpdate()
     {
-        if (portals == null || portals.Length == 0)
-            portals = FindObjectsOfType<Portal>();
+        if (Portal.freezePortals)
+            return;
+
+        portals = FindObjectsOfType<Portal>();
 
         for (int i = 0; i < portals.Length; i++)
-            portals[i].PrePortalRender();
+            if (portals[i].linkedPortal != null)
+                portals[i].PrePortalRender();
 
         for (int i = 0; i < portals.Length; i++)
-            portals[i].Render();
+            if (portals[i].linkedPortal != null)
+                portals[i].Render();
 
         for (int i = 0; i < portals.Length; i++)
-            portals[i].PostPortalRender();
+            if (portals[i].linkedPortal != null)
+                portals[i].PostPortalRender();
     }
 
 }

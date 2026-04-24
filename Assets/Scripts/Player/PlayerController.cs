@@ -39,6 +39,7 @@ public class PlayerController : GravitableObject
     private float cameraPitch = 0f;
     [SerializeField] GameObject graphicsObject;
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -251,7 +252,7 @@ public class PlayerController : GravitableObject
         grabbedCollider = null;
     }
 
-    public void OnGrab()
+    public void OnInteract()
     {
         if (grabbedRb == null)
             TryGrab();
@@ -265,5 +266,81 @@ public class PlayerController : GravitableObject
         Vector3 dir = targetPos - grabbedRb.position;
 
         grabbedRb.linearVelocity = dir * holdForce;
+    }
+
+    
+
+    [Header("Portales")]
+
+    [SerializeField] Portal bluePrefab;
+    [SerializeField] Portal orangePrefab;
+    [SerializeField] float maxDistance = 50f;
+
+    // 🔥 FALTABA ESTO
+    Portal portalBlue;
+    Portal portalOrange;
+
+    public void OnShootBlue() => ShootBlue();
+    public void OnShootOrange() => ShootOrange();
+
+    public void ShootBlue()
+    {
+        ShootPortal(ref portalBlue, bluePrefab);
+    }
+
+    public void ShootOrange()
+    {
+        ShootPortal(ref portalOrange, orangePrefab);
+    }
+
+    void ShootPortal(ref Portal portal, Portal prefab)
+    {
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
+        {
+            // Crear si no existe
+            if (portal == null)
+            {
+                portal = Instantiate(prefab);
+            }
+
+            PlacePortal(portal, hit);
+            TryLinkPortals();
+
+            // 🔥 MUY IMPORTANTE → actualizar render
+            portal.ForceRenderNow();
+            if (portal.linkedPortal != null)
+                portal.linkedPortal.ForceRenderNow();
+        }
+    }
+
+    void PlacePortal(Portal portal, RaycastHit hit)
+    {
+        // Separarlo un poco de la superficie
+        Vector3 pos = hit.point + hit.normal * 0.02f;
+
+        Vector3 forward = -hit.normal;
+
+        // Evitar rotaciones raras en suelo/techo
+        Vector3 up = Vector3.up;
+        if (Mathf.Abs(Vector3.Dot(forward, up)) > 0.9f)
+            up = Vector3.forward;
+
+        Quaternion rot = Quaternion.LookRotation(forward, up);
+
+        portal.transform.SetPositionAndRotation(pos, rot);
+
+        // 🔥 limpiar estado interno del portal
+        portal.ResetPortal();
+    }
+
+    void TryLinkPortals()
+    {
+        if (portalBlue != null && portalOrange != null)
+        {
+            portalBlue.linkedPortal = portalOrange;
+            portalOrange.linkedPortal = portalBlue;
+        }
     }
 }
