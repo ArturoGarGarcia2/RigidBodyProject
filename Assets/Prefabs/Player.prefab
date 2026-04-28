@@ -350,6 +350,9 @@ MonoBehaviour:
   grabRange: 6
   holdForce: 20
   throwForce: 10
+  interactLayer:
+    serializedVersion: 2
+    m_Bits: 0
   sprintMultiplier: 2
   gravityLights:
   - {fileID: 6893786393863275152}

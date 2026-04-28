@@ -14,8 +14,8 @@ TagManager:
   - Grabbable
   - HeldObject
   - Camera
-  - 
-  - 
+  - Interact
+  - Gizmo
   - 
   - 
   - 
