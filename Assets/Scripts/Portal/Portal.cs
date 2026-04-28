@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour {
     public static bool freezePortals = false;
+
+    [SerializeField] private Renderer portalRenderer;
+
+    private Material portalMaterial;
+    private Color baseColor;
+
     
     [Header ("Main Settings")]
+    public bool isActive = true;
     public Portal linkedPortal;
     public MeshRenderer screen;
     public int recursionLimit = 5;
@@ -29,6 +36,31 @@ public class Portal : MonoBehaviour {
         trackedTravellers = new List<PortalTraveller> ();
         screenMeshFilter = screen.GetComponent<MeshFilter> ();
         screen.material.SetInt ("displayMask", 1);
+        
+        portalMaterial = portalRenderer.material;
+        baseColor = portalMaterial.color;
+    }
+
+    public void SetActive(bool isActive) => this.isActive = isActive;
+    public void ToggleActive() => isActive = !isActive;
+
+    private void SetEmission()
+    {
+        if (isActive)
+        {
+            portalMaterial.EnableKeyword("_EMISSION");
+            portalMaterial.SetColor("_EmissionColor", baseColor);
+        }
+        else
+        {
+            portalMaterial.SetColor("_EmissionColor", Color.black);
+            portalMaterial.DisableKeyword("_EMISSION");
+        }
+    }
+
+    void Update()
+    {
+        SetEmission();
     }
 
     void LateUpdate () {
@@ -50,6 +82,22 @@ public class Portal : MonoBehaviour {
                 var positionOld = travellerT.position;
                 var rotOld = travellerT.rotation;
                 traveller.Teleport(transform, linkedPortal.transform, m.GetColumn (3), m.rotation);
+
+                GravitableObject g = traveller.GetComponent<GravitableObject>();
+                if (g != null)
+                    if (isActive)
+                    {
+                        Vector3 currentGravity = g.GetCurrentGravityDir();
+
+                        Vector3 newGravity = linkedPortal.transform.TransformDirection(
+                            transform.InverseTransformDirection(currentGravity)
+                        );
+
+                        g.ChangeGravity(newGravity);
+                    }
+                    else
+                        g.ResetToWorldGravity();
+
                 traveller.graphicsClone.transform.SetPositionAndRotation (positionOld, rotOld);
                 // Can't rely on OnTriggerEnter/Exit to be called next frame since it depends on when FixedUpdate runs
                 linkedPortal.OnTravellerEnterPortal (traveller);
@@ -316,6 +364,7 @@ public class Portal : MonoBehaviour {
     void OnValidate () {
         if (linkedPortal != null) {
             linkedPortal.linkedPortal = this;
+            linkedPortal.isActive = isActive;
         }
     }
 

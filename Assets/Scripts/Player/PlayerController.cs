@@ -18,11 +18,12 @@ public class PlayerController : GravitableObject
     public Transform cameraTransform;
     public Transform holdPoint;
 
-    [Header("Agarradas")]
+    [Header("Interactuadas")]
     public LayerMask grabbableLayer;
     public float grabRange = 5f;
     public float holdForce = 20f;
     public float throwForce = 10f;
+    public LayerMask interactLayer;
 
     [Header("Sprint")]
     public float sprintMultiplier = 2f;
@@ -68,12 +69,6 @@ public class PlayerController : GravitableObject
     {
         isSprinting = value.Get<float>() > 0.5f;
     }
-    public void OnInteract(InputValue value)
-    {
-        isInteracting = value.Get<float>() > 0.5f;
-    }
-
-    public bool IsInteracting() => isInteracting;
 
     public void OnGravityDown()    => GravityManager.ChangeWorldGravity(Vector3.down);
     public void OnGravityUp()      => GravityManager.ChangeWorldGravity(Vector3.up);
@@ -107,6 +102,9 @@ public class PlayerController : GravitableObject
 
     void Update()
     {
+        if (Keyboard.current.eKey.wasPressedThisFrame)
+            Debug.Log("E funciona");
+
         foreach(Light l in gravityLights)
             if(!useLocalGravity)
                 l.color = GravityManager.GetColorFromGravity(GravityManager.worldGravityDir);
@@ -182,7 +180,7 @@ public class PlayerController : GravitableObject
         obj.layer = held ? LayerMask.NameToLayer("HeldObject") : LayerMask.NameToLayer("Grabbable");
     }
 
-    void TryGrab()
+    void HandleInteract()
     {
         Ray ray = new Ray(cameraTransform.position, cameraTransform.TransformDirection(Vector3.forward));
         RaycastHit hit;
@@ -190,30 +188,42 @@ public class PlayerController : GravitableObject
         Debug.DrawRay(cameraTransform.position, ray.direction * grabRange, Color.green, 2f);
 
         if (Physics.Raycast(ray, out hit, grabRange, grabbableLayer))
+            Grab(hit);
+
+        if (Physics.Raycast(ray, out hit, grabRange, interactLayer))
+            Interact(hit);
+    }
+
+    void Interact(RaycastHit hit)
+    {
+        TerminalCommand terminal = hit.collider.GetComponentInParent<TerminalCommand>();
+
+        if (terminal != null)
+            terminal.Execute();
+    }
+
+    void Grab(RaycastHit hit)
+    {
+        Rigidbody rb = hit.collider.GetComponentInParent<Rigidbody>();
+
+        if (rb != null)
         {
-            Rigidbody rb = hit.collider.GetComponentInParent<Rigidbody>();
+            grabbedRb = rb;
+            grabbedCollider = hit.collider;
+            SetHeldLayer(grabbedRb.gameObject, true);
+            GrabState(grabbedRb, true);
 
-            if (rb != null)
+            grabbedRb.linearVelocity = Vector3.zero;
+            grabbedRb.angularVelocity = Vector3.zero;
+
+            grabbedRb.useGravity = false;
+            grabbedRb.linearDamping = 10f;
+
+            GravityZone zone = grabbedRb.GetComponentInParent<GravityZone>();
+            if (zone != null)
             {
-                grabbedRb = rb;
-                grabbedCollider = hit.collider;
-                SetHeldLayer(grabbedRb.gameObject, true);
-                GrabState(grabbedRb, true);
-
-                // 🔴 LIMPIEZA DE FÍSICA (clave para evitar “gravedad híbrida”)
-                grabbedRb.linearVelocity = Vector3.zero;
-                grabbedRb.angularVelocity = Vector3.zero;
-
-                grabbedRb.useGravity = false;
-                grabbedRb.linearDamping = 10f;
-
-                // 🔴 SALIR FORZADO DE ZONAS DE GRAVEDAD
-                GravityZone zone = grabbedRb.GetComponentInParent<GravityZone>();
-                if (zone != null)
-                {
-                    // simula salida lógica inmediata
-                    zone.OnTriggerExit(grabbedCollider);
-                }
+                // simula salida lógica inmediata
+                zone.OnTriggerExit(grabbedCollider);
             }
         }
     }
@@ -234,30 +244,14 @@ public class PlayerController : GravitableObject
         }
     }
 
-    void Throw()
+    public void OnInteract(InputValue value)
     {
-        if (grabbedRb == null) return;
-
-        GrabState(grabbedRb, false);
-
-        grabbedRb.useGravity = false;
-        grabbedRb.linearDamping = 0f;
-
-        Vector3 throwDir = cameraTransform.forward;
-        grabbedRb.linearVelocity = throwDir * throwForce;
-
-        SetHeldLayer(grabbedRb.gameObject, false);
-
-        grabbedRb = null;
-        grabbedCollider = null;
-    }
-
-    public void OnInteract()
-    {
-        if (grabbedRb == null)
-            TryGrab();
-        else
-            Release();
+        Debug.Log("Agarrando");
+        if (value.isPressed)
+            if (grabbedRb == null)
+                HandleInteract();
+            else
+                Release();
     }
 
     void HoldObject()
@@ -266,81 +260,5 @@ public class PlayerController : GravitableObject
         Vector3 dir = targetPos - grabbedRb.position;
 
         grabbedRb.linearVelocity = dir * holdForce;
-    }
-
-    
-
-    [Header("Portales")]
-
-    [SerializeField] Portal bluePrefab;
-    [SerializeField] Portal orangePrefab;
-    [SerializeField] float maxDistance = 50f;
-
-    // 🔥 FALTABA ESTO
-    Portal portalBlue;
-    Portal portalOrange;
-
-    public void OnShootBlue() => ShootBlue();
-    public void OnShootOrange() => ShootOrange();
-
-    public void ShootBlue()
-    {
-        ShootPortal(ref portalBlue, bluePrefab);
-    }
-
-    public void ShootOrange()
-    {
-        ShootPortal(ref portalOrange, orangePrefab);
-    }
-
-    void ShootPortal(ref Portal portal, Portal prefab)
-    {
-        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, maxDistance))
-        {
-            // Crear si no existe
-            if (portal == null)
-            {
-                portal = Instantiate(prefab);
-            }
-
-            PlacePortal(portal, hit);
-            TryLinkPortals();
-
-            // 🔥 MUY IMPORTANTE → actualizar render
-            portal.ForceRenderNow();
-            if (portal.linkedPortal != null)
-                portal.linkedPortal.ForceRenderNow();
-        }
-    }
-
-    void PlacePortal(Portal portal, RaycastHit hit)
-    {
-        // Separarlo un poco de la superficie
-        Vector3 pos = hit.point + hit.normal * 0.02f;
-
-        Vector3 forward = -hit.normal;
-
-        // Evitar rotaciones raras en suelo/techo
-        Vector3 up = Vector3.up;
-        if (Mathf.Abs(Vector3.Dot(forward, up)) > 0.9f)
-            up = Vector3.forward;
-
-        Quaternion rot = Quaternion.LookRotation(forward, up);
-
-        portal.transform.SetPositionAndRotation(pos, rot);
-
-        // 🔥 limpiar estado interno del portal
-        portal.ResetPortal();
-    }
-
-    void TryLinkPortals()
-    {
-        if (portalBlue != null && portalOrange != null)
-        {
-            portalBlue.linkedPortal = portalOrange;
-            portalOrange.linkedPortal = portalBlue;
-        }
     }
 }

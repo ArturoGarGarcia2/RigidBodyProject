@@ -33,30 +33,12 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ShootBlue",
-                    "type": "Button",
-                    "id": "aaec36ba-4699-420b-b191-ae8e16990874",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ShootOrange",
-                    "type": "Button",
-                    "id": "b3606251-0713-4ab5-9573-60734d5b895b",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -388,28 +370,6 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Grab",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "562d74e7-b205-4f49-bc5d-e69f8b7cd23b",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "ShootBlue",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0ed3b000-7009-4b59-a6a7-b8b1bc80fc8c",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "ShootOrange",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

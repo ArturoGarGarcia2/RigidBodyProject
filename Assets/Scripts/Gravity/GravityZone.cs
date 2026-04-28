@@ -5,6 +5,7 @@ public class GravityZone : MonoBehaviour
     public Direction dir;
     public Renderer[] gravityFieldRenderers;
     public Transform parent;
+    public bool mantainGravity;
 
     void Start()
     {
@@ -42,8 +43,11 @@ public class GravityZone : MonoBehaviour
         var gravObj = other.GetComponent<GravitableObject>();
         if (gravObj != null)
         {
-            gravObj.ResetToWorldGravity();
-            gravObj.useLocalGravity = false;
+            if (!mantainGravity)
+            {
+                gravObj.ResetToWorldGravity();
+                gravObj.useLocalGravity = false;
+            }
 
             if(parent != null)
                 other.transform.SetParent(null);
