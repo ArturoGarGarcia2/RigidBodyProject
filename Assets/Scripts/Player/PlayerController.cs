@@ -182,20 +182,30 @@ public class PlayerController : GravitableObject
 
     void HandleInteract()
     {
-        Ray ray = new Ray(cameraTransform.position, cameraTransform.TransformDirection(Vector3.forward));
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
         RaycastHit hit;
 
-        Debug.DrawRay(cameraTransform.position, ray.direction * grabRange, Color.green, 2f);
+        if (Physics.Raycast(ray, out hit, grabRange))
+        {
+            TerminalCommand terminal = hit.collider.GetComponentInParent<TerminalCommand>();
 
-        if (Physics.Raycast(ray, out hit, grabRange, grabbableLayer))
-            Grab(hit);
+            if (terminal != null)
+            {
+                terminal.Execute();
+                return;
+            }
 
-        if (Physics.Raycast(ray, out hit, grabRange, interactLayer))
-            Interact(hit);
+            Rigidbody rb = hit.collider.GetComponentInParent<Rigidbody>();
+
+            if (rb != null)
+                Grab(hit);
+        }
     }
 
     void Interact(RaycastHit hit)
     {
+        Debug.Log(hit.collider.name);
+        Debug.Log(hit.collider.GetComponentInParent<TerminalCommand>());
         TerminalCommand terminal = hit.collider.GetComponentInParent<TerminalCommand>();
 
         if (terminal != null)
@@ -246,7 +256,6 @@ public class PlayerController : GravitableObject
 
     public void OnInteract(InputValue value)
     {
-        Debug.Log("Agarrando");
         if (value.isPressed)
             if (grabbedRb == null)
                 HandleInteract();

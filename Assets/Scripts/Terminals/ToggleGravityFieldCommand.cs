@@ -1,14 +1,14 @@
 using TMPro;
 using UnityEngine;
 
-public class TogglePortalCommand : TerminalCommand
+public class ToggleGravityFieldCommand : TerminalCommand
 {
-    public Portal portal;
+    public GravityZone zone;
     bool active;
 
     void Start()
     {
-        active = portal.isActive;
+        active = zone.isActive;
     }
 
     void Update()
@@ -26,7 +26,7 @@ public class TogglePortalCommand : TerminalCommand
         if (!canBeInteracted) return;
         
         base.Execute();
-        portal.ToggleActive();
+        zone.ToggleActive();
         active = !active;
     }
 }

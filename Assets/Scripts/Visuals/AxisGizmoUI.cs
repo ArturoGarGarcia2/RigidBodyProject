@@ -10,8 +10,8 @@ public class AxisGizmoUI : MonoBehaviour
         // Posición HUD
         transform.position = cameraTransform.position 
                             + cameraTransform.forward * 0.5f 
-                            + cameraTransform.right * 0.3f 
-                            + cameraTransform.up * -0.3f;
+                            + cameraTransform.right * 0.7f 
+                            + cameraTransform.up * 0.35f;
 
         // Rotación objetivo: mundo fijo
         Quaternion targetRotation = Quaternion.identity;

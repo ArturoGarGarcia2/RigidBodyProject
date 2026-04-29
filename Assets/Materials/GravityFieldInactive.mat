@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GravityBubble
+  m_Name: GravityFieldInactive
   m_Shader: {fileID: -6465566751694194690, guid: 44b8990297c44ba439a113a4f583bf98, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
