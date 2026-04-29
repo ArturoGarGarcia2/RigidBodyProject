@@ -14,13 +14,16 @@ public class TogglePortalCommand : TerminalCommand
 
     void Update()
     {
-        display.text = active ? "On" : "Off";
-        display.color = active ? Color.green : Color.red;
+        display.text = active 
+            ? "<color=#0FF>On</color>" 
+            : "<color=#F00>Off</color>";
     }
 
 
     public override void Execute()
     {
+        if (!canBeInteracted) return;
+        
         base.Execute();
         portal.ToggleActive();
         active = !active;
