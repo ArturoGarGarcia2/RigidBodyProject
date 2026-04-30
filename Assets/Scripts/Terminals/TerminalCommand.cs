@@ -1,14 +1,22 @@
 using TMPro;
 using UnityEngine;
 
-public class TerminalCommand : MonoBehaviour
+public abstract class TerminalCommand : MonoBehaviour
 {
     public bool canBeInteracted;
-    public TMP_Text display;
+    [SerializeField] protected TMP_Text display;
+
     public virtual void Execute(){}
+
+    protected virtual string GetDisplayText()
+    {
+        return "<color=#F00>No\nService</color>";
+    }
+
     public virtual void Update()
     {
-        if(!canBeInteracted)
-            display.text = "<color=#F00>No\nService</color>";
+        display.text = canBeInteracted 
+            ? GetDisplayText() 
+            : "<color=#F00>No\nService</color>";
     }
 }

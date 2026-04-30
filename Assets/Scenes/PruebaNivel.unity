@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb85ad84ac0a8b7429c036b97b07732f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeInteracted: 1
+  canBeInteracted: 0
   display: {fileID: 1034843787}
   portal: {fileID: 380343126}
 --- !u!1 &227383224
@@ -1423,7 +1423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   batteriesRequired: 1
   terminals:
-  - {fileID: 0}
+  - {fileID: 54807380}
 --- !u!4 &777852215 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 481974, guid: 914595d46f531e44f8b35cd1232a0750, type: 3}
