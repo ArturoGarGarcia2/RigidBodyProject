@@ -9,6 +9,7 @@ public class BatteryPlateManager : MonoBehaviour
 
     void Update()
     {
+        if(terminals.Length == 0) return;
         active = batteries >= batteriesRequired;
         ActiveTerminals();
     }
@@ -31,9 +32,10 @@ public class BatteryPlateManager : MonoBehaviour
         batteries--;
     }
 
-    void OnValidate()
-    {
-        foreach(TerminalCommand terminal in terminals)
-            terminal.canBeInteracted = false;
-    }
+    // void OnValidate()
+    // {
+    //     if(terminals.Length == 0) return;
+    //     foreach(TerminalCommand terminal in terminals)
+    //         terminal.canBeInteracted = false;
+    // }
 }

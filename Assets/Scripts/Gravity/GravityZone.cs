@@ -1,7 +1,7 @@
 using UnityEngine;
     using System.Collections.Generic;
 
-public class GravityZone : MonoBehaviour
+public class GravityZone : TerminalActivable
 {
     private List<GravitableObject> affectedObjects = new List<GravitableObject>();
     public Direction dir;
@@ -9,25 +9,31 @@ public class GravityZone : MonoBehaviour
     public Transform parent;
     public bool mantainGravity;
 
-    public bool isActive = true;
-
     void Start()
     {
         UpdateMaterials();
     }
 
-    public void ToggleActive()
+    public override void ToggleActive()
     {
         isActive = !isActive;
 
         if (!isActive)
-        {
             DisableZoneEffects();
-        }
         else
-        {
-            ApplyGravityToObjectsInside(); // 👈 esto es lo que te falta
-        }
+            ApplyGravityToObjectsInside();
+
+        UpdateMaterials();
+    }
+
+    public override void SetActive(bool active)
+    {
+        isActive = active;
+
+        if (!isActive)
+            DisableZoneEffects();
+        else
+            ApplyGravityToObjectsInside();
 
         UpdateMaterials();
     }

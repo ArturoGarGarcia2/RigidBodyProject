@@ -102,9 +102,6 @@ public class PlayerController : GravitableObject
 
     void Update()
     {
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-            Debug.Log("E funciona");
-
         foreach(Light l in gravityLights)
             if(!useLocalGravity)
                 l.color = GravityManager.GetColorFromGravity(GravityManager.worldGravityDir);

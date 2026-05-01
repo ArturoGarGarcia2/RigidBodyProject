@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Portal : MonoBehaviour {
+public class Portal : TerminalActivable {
     public static bool freezePortals = false;
 
     [SerializeField] private Renderer portalRenderer;
@@ -12,7 +12,6 @@ public class Portal : MonoBehaviour {
 
     
     [Header ("Main Settings")]
-    public bool isActive = true;
     public Portal linkedPortal;
     public MeshRenderer screen;
     public int recursionLimit = 5;
@@ -41,8 +40,14 @@ public class Portal : MonoBehaviour {
         baseColor = portalMaterial.color;
     }
 
-    public void SetActive(bool isActive) => this.isActive = isActive;
-    public void ToggleActive() => isActive = !isActive;
+    public override void SetActive(bool isActive){
+        this.isActive = isActive;
+        linkedPortal.isActive = isActive;
+    }
+    public override void ToggleActive(){
+        isActive = !isActive;
+        linkedPortal.isActive = isActive;
+    }
 
     private void SetEmission()
     {
@@ -95,8 +100,8 @@ public class Portal : MonoBehaviour {
 
                         g.ChangeGravity(newGravity);
                     }
-                    else
-                        g.ResetToWorldGravity();
+                    // else
+                    //     g.ResetToWorldGravity();
 
                 traveller.graphicsClone.transform.SetPositionAndRotation (positionOld, rotOld);
                 // Can't rely on OnTriggerEnter/Exit to be called next frame since it depends on when FixedUpdate runs
@@ -365,6 +370,7 @@ public class Portal : MonoBehaviour {
         if (linkedPortal != null) {
             linkedPortal.linkedPortal = this;
             linkedPortal.isActive = isActive;
+            linkedPortal.initialState = initialState;
         }
     }
 

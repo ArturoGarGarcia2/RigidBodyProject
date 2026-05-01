@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4588964287214585175}
+  - component: {fileID: 7268050839401970874}
   - component: {fileID: 8656706126233277145}
   - component: {fileID: 1065778515275387098}
   - component: {fileID: 6491325413639688275}
-  - component: {fileID: 7268050839401970874}
   m_Layer: 0
   m_Name: GravityField
   m_TagString: Untagged
@@ -41,6 +41,30 @@ Transform:
   - {fileID: 4051488312054699101}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &7268050839401970874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 412613824142527827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a84d80d49295f94db20e5ece3d98829, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 1
+  initialState: 0
+  dir: 4
+  gravityFieldRenderers:
+  - {fileID: 7358070814421763079}
+  - {fileID: 8588924624921924534}
+  - {fileID: 2264623836074870638}
+  - {fileID: 6709829809244828781}
+  - {fileID: 6845455241609565217}
+  - {fileID: 1556437288508241317}
+  parent: {fileID: 0}
+  mantainGravity: 0
 --- !u!33 &8656706126233277145
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -115,29 +139,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7268050839401970874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412613824142527827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a84d80d49295f94db20e5ece3d98829, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dir: 4
-  gravityFieldRenderers:
-  - {fileID: 7358070814421763079}
-  - {fileID: 8588924624921924534}
-  - {fileID: 2264623836074870638}
-  - {fileID: 6709829809244828781}
-  - {fileID: 6845455241609565217}
-  - {fileID: 1556437288508241317}
-  parent: {fileID: 0}
-  mantainGravity: 0
-  isActive: 1
 --- !u!1 &2132364659507572920
 GameObject:
   m_ObjectHideFlags: 0
