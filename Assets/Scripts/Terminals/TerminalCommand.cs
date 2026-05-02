@@ -42,14 +42,21 @@ public abstract class TerminalCommand : MonoBehaviour
         RefreshDisplay();
     }
 
-    public abstract void Execute();
-
-    protected virtual string GetDisplayText() =>
-        "<size=50%><color=#F00>Out of\nservice</color></size>";
-
     protected virtual void EnableLight(){
         light.SetActive(canBeInteracted);
     }
+
+    public abstract void Execute();
+
+    #region Display
+    protected virtual string GetDisplayText() =>
+        "<size=50%><color=#F00>Out of\nservice</color></size>";
+
+    protected virtual string GetTrivialDisplay1Text() =>
+        "<size=50%><color=#F00>Out of\nservice</color></size>";
+
+    protected virtual string GetTrivialDisplay2Text() =>
+        "<color=#999>current_gravity: </color>"+GravityManager.GetGravityText();
 
     protected void RefreshDisplay()
     {
@@ -61,14 +68,14 @@ public abstract class TerminalCommand : MonoBehaviour
         display.text = canBeInteracted
             ? GetDisplayText()
             : "<size=50%><color=#F00>Out of\nservice</color></size>";
-        
-        trivialDisplay1.text = canBeInteracted
-            ? "<color=#999>current_gravity: </color><color="+GravityManager.GetHexadecimalFromGravity()+">"+GravityManager.GetNameFromGravity()+"</color>"
-            : "";
 
+        trivialDisplay1.text = canBeInteracted
+            ? "<color=#999>"+GetTrivialDisplay1Text()+"</color>"
+            : "";
+        
         trivialDisplay2.text = canBeInteracted
-            ? ""
-            // ? "<color=#999>current_gravity: </color><color="+GravityManager.GetHexadecimalFromGravity()+">"+GravityManager.GetNameFromGravity()+"</color>"
+            ? "<color=#999>"+GetTrivialDisplay2Text()+"</color>"
             : "";
     }
+    #endregion
 }

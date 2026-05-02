@@ -8,6 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayZone.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level1.unity
+    guid: b95cb097d51f336478f9b93bf52dee97
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level2.unity
+    guid: 8441b1782e26a7a428f032625ca9bfc7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

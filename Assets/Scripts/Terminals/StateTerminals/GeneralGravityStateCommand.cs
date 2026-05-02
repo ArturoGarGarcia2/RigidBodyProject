@@ -17,4 +17,7 @@ public class GeneralGravityStateCommand : StateCommand
         base.Update();
         sameState = GravityManager.worldGravityDir == direction.GetVector();
     }
+
+    protected override string GetTrivialDisplay1Text() => "change_general_gravity";
+    protected override string GetTrivialDisplay2Text() => "change_to_"+direction.GetGravityText();
 }

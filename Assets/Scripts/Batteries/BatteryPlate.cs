@@ -1,16 +1,20 @@
 using UnityEngine;
 
-public class BatteryPlateManager : MonoBehaviour
+public class BatteryPlate : MonoBehaviour
 {
     private int batteries;
     public int batteriesRequired;
     private bool active;
     [SerializeField] TerminalCommand[] terminals;
+    [SerializeField] protected Renderer batteryDisplay;
+    [SerializeField] protected Material lowBattery;
+    [SerializeField] protected Material fullBattery;
 
     void Update()
     {
         if(terminals.Length == 0) return;
         active = batteries >= batteriesRequired;
+        batteryDisplay.material = active ? fullBattery : lowBattery;
         ActiveTerminals();
     }
 

@@ -4,7 +4,6 @@ using System.Collections;
 public abstract class TimedCommand : TerminalCommand
 {
     [Header ("Time Management")]
-    public bool initialState;
     [SerializeField] private float duration = 5f;
     private bool isRunning;
 
@@ -48,4 +47,6 @@ public abstract class TimedCommand : TerminalCommand
         isRunning
         ? "<size=50%><color=#F80>Running...</color></size>"
         : "<size=75%><color=#FF0>Ready</color></size>";
+
+    protected override string GetTrivialDisplay1Text() => "time_of_effect: "+duration+"s";
 }

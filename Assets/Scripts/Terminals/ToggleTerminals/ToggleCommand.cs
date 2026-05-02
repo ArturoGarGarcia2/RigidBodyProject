@@ -15,6 +15,6 @@ public abstract class ToggleCommand : TerminalCommand
 
     protected override string GetDisplayText() =>
         isActive
-        ? "<color=#0FF>On</color>"
-        : "<color=#F80>Off</color>";
+        ? "<color=#F80>Off</color>"
+        : "<color=#0FF>On</color>";
 }

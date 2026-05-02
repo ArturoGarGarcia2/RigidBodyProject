@@ -22,4 +22,7 @@ public class FinishLevelCommand : OneShotCommand
 
     protected override string GetDisplayText() =>
         "<color=#0F0>Finish</color>";
+        
+    protected override string GetTrivialDisplay1Text() => "finish_stage";
+    protected override string GetTrivialDisplay2Text() => "";
 }

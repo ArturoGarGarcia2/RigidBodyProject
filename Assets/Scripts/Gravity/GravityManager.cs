@@ -8,6 +8,9 @@ public static class GravityManager
     public static Vector3 GetGravity() => worldGravityDir * gravityForce;
 
     public static void ChangeWorldGravity(Vector3 direction) => worldGravityDir = direction.normalized;
+
+    public static string GetGravityText() => "<color="+GetHexadecimalFromGeneralGravity()+">"+GetNameFromGeneralGravity()+"</color>";
+
     
     public static Color GetColorFromGravity(Vector3 d)
     {
@@ -21,7 +24,7 @@ public static class GravityManager
         return Color.white;
     }
     
-    public static string GetNameFromGravity()
+    public static string GetNameFromGeneralGravity()
     {
         if (worldGravityDir == Vector3.up) return "UP";
         if (worldGravityDir == Vector3.down) return "DOWN";
@@ -33,7 +36,7 @@ public static class GravityManager
         return "UP";
     }
 
-    public static string GetHexadecimalFromGravity()
+    public static string GetHexadecimalFromGeneralGravity()
     {
         if (worldGravityDir == Vector3.up) return "#FFF";
         if (worldGravityDir == Vector3.down) return "#FF0";
