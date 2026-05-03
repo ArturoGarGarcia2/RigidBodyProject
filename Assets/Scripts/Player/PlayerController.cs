@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
-public class PlayerController : GravitableObject
+public class PlayerController : GravitableObject, IRespawnable
 {
     public Animator animator;
     public TextMeshProUGUI debugTxt;
@@ -266,5 +267,21 @@ public class PlayerController : GravitableObject
         Vector3 dir = targetPos - grabbedRb.position;
 
         grabbedRb.linearVelocity = dir * holdForce;
+    }
+
+    private bool isReloading = false;
+
+    public void OnOutOfBounds()
+    {
+        if (isReloading) return;
+
+        isReloading = true;
+        ReloadLevel();
+    }
+
+    void ReloadLevel()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.buildIndex);
     }
 }

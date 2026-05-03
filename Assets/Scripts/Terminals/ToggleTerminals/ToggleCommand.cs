@@ -17,4 +17,7 @@ public abstract class ToggleCommand : TerminalCommand
         isActive
         ? "<color=#F80>Off</color>"
         : "<color=#0FF>On</color>";
+
+        
+    protected override string GetTrivialDisplay1Text() => "toggle_terminal";
 }

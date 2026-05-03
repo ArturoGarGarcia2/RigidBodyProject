@@ -26,14 +26,14 @@ public class TimedGenericCommand : TimedCommand
         foreach(TerminalActivable activable in activables){
             if(activable is Portal)
                 if(activable.initialState)
-                    displayText += "deactivating: "+activable.name+"\n";
+                    displayText += "deactivate: "+activable.name+"\n";
                 else
-                    displayText += "activating: "+activable.name+"\n";
+                    displayText += "activate: "+activable.name+"\n";
             if(activable is GravityZone)
                 if(activable.initialState)
-                    displayText += "deactivating: "+activable.name+"\n";
+                    displayText += "deactivate: "+activable.name+"\n";
                 else
-                    displayText += "activating: "+activable.name+"\n";
+                    displayText += "activate: "+activable.name+"\n";
         }
         
         return displayText;

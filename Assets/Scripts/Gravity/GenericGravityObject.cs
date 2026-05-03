@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class GenericGravityBody : GravitableObject
+public class GenericGravityBody : GravitableObject, IRespawnable
 {
 
     [Header("Restricciones de Movimiento")]
@@ -25,5 +25,10 @@ public class GenericGravityBody : GravitableObject
         Vector3 filteredGravity = Vector3.Scale(rawGravity, mask);
 
         rb.AddForce(filteredGravity, ForceMode.Acceleration);
+    }
+
+    public void OnOutOfBounds()
+    {
+        Destroy(gameObject);
     }
 }
