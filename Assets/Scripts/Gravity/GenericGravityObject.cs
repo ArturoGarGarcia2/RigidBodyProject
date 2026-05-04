@@ -27,8 +27,6 @@ public class GenericGravityBody : GravitableObject, IRespawnable
         rb.AddForce(filteredGravity, ForceMode.Acceleration);
     }
 
-    public void OnOutOfBounds()
-    {
+    public void OnOutOfBounds() => 
         Destroy(gameObject);
-    }
 }

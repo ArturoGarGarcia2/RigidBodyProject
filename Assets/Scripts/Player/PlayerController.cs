@@ -8,6 +8,7 @@ public class PlayerController : GravitableObject, IRespawnable
 {
     public Animator animator;
     public TextMeshProUGUI debugTxt;
+    public static PlayerController Instance { get; private set; }
 
     [Header("Ajustes de Movimiento")]
     public float moveSpeed = 5f;
@@ -50,7 +51,14 @@ public class PlayerController : GravitableObject, IRespawnable
         animator.applyRootMotion = false;
 
         traveller = GetComponent<PortalTraveller>();
-        traveller.graphicsObject = graphicsObject; // 🔥 NO this.gameObject
+        traveller.graphicsObject = graphicsObject;
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
 
     // --- INPUT EVENTS ---

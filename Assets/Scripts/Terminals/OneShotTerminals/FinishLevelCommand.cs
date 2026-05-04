@@ -17,6 +17,7 @@ public class FinishLevelCommand : OneShotCommand
         }
 
         int nextLevel = int.Parse(match.Groups[1].Value) + 1;
+        GravityManager.ChangeWorldGravity(Vector3.down);
         SceneManager.LoadScene("Level" + nextLevel);
     }
 
