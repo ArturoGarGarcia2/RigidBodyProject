@@ -32,6 +32,7 @@ public class PlayerController : GravitableObject, IRespawnable
     private bool isSprinting = false;
     private bool isInteracting = false;
 
+
     Rigidbody grabbedRb;
     Collider grabbedCollider;
     public Light[] gravityLights;
@@ -45,6 +46,7 @@ public class PlayerController : GravitableObject, IRespawnable
 
     protected override void Awake()
     {
+        GravityManager.ChangeWorldGravity(Vector3.down);
         base.Awake();
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
@@ -52,6 +54,8 @@ public class PlayerController : GravitableObject, IRespawnable
 
         traveller = GetComponent<PortalTraveller>();
         traveller.graphicsObject = graphicsObject;
+
+        playerColliders = GetComponentsInChildren<Collider>();
 
         if (Instance != null && Instance != this)
         {
@@ -99,7 +103,6 @@ public class PlayerController : GravitableObject, IRespawnable
             HoldObject();
 
         float verticalSpeed = Vector3.Dot(rb.linearVelocity, transform.up);
-        // debugTxt.text = verticalSpeed+"";
         animator.SetFloat("VerticalSpeed", verticalSpeed);
         animator.SetBool("IsGrounded", IsGrounded());
     }
@@ -173,7 +176,6 @@ public class PlayerController : GravitableObject, IRespawnable
 
     private bool IsGrounded() => Physics.Raycast(transform.position, -transform.up, 1.1f);
 
-
     void GrabState(Rigidbody rb, bool state)
     {
         GravitableObject g = rb.GetComponent<GravitableObject>();
@@ -208,15 +210,9 @@ public class PlayerController : GravitableObject, IRespawnable
         }
     }
 
-    void Interact(RaycastHit hit)
-    {
-        Debug.Log(hit.collider.name);
-        Debug.Log(hit.collider.GetComponentInParent<TerminalCommand>());
-        TerminalCommand terminal = hit.collider.GetComponentInParent<TerminalCommand>();
-
-        if (terminal != null)
-            terminal.Execute();
-    }
+    private Collider[] grabbedColliders;
+    private bool[] originalIsTrigger;
+    private Collider[] playerColliders;
 
     void Grab(RaycastHit hit)
     {
@@ -226,8 +222,23 @@ public class PlayerController : GravitableObject, IRespawnable
         {
             grabbedRb = rb;
             grabbedCollider = hit.collider;
+
+            grabbedColliders = grabbedRb.GetComponentsInChildren<Collider>();
+
+            // 🚫 Ignorar colisiones SOLO con el jugador
+            foreach (var objCol in grabbedColliders)
+            {
+                foreach (var playerCol in playerColliders)
+                {
+                    Physics.IgnoreCollision(objCol, playerCol, true);
+                }
+            }
+
             SetHeldLayer(grabbedRb.gameObject, true);
             GrabState(grabbedRb, true);
+
+            // 🔧 evitar empujón inicial
+            grabbedRb.position = holdPoint.position;
 
             grabbedRb.linearVelocity = Vector3.zero;
             grabbedRb.angularVelocity = Vector3.zero;
@@ -235,10 +246,15 @@ public class PlayerController : GravitableObject, IRespawnable
             grabbedRb.useGravity = false;
             grabbedRb.linearDamping = 10f;
 
+            // 🔒 bloquear rotación
+            grabbedRb.constraints = RigidbodyConstraints.FreezeRotation;
+
+            // 🔥 evitar atravesar paredes a velocidad
+            grabbedRb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
             GravityZone zone = grabbedRb.GetComponentInParent<GravityZone>();
             if (zone != null)
             {
-                // simula salida lógica inmediata
                 zone.OnTriggerExit(grabbedCollider);
             }
         }
@@ -254,6 +270,23 @@ public class PlayerController : GravitableObject, IRespawnable
             grabbedRb.linearDamping = 0f;
 
             SetHeldLayer(grabbedRb.gameObject, false);
+            
+            grabbedRb.constraints = RigidbodyConstraints.None;
+            grabbedRb.freezeRotation = false;
+
+            // 🔄 restaurar colisiones con jugador
+            foreach (var objCol in grabbedColliders)
+            {
+                if (objCol == null) continue;
+
+                foreach (var playerCol in playerColliders)
+                {
+                    Physics.IgnoreCollision(objCol, playerCol, false);
+                }
+            }
+
+            // 🔧 volver a modo normal de colisiones
+            grabbedRb.collisionDetectionMode = CollisionDetectionMode.Discrete;
 
             grabbedRb = null;
             grabbedCollider = null;

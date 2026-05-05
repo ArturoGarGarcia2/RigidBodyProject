@@ -17,8 +17,8 @@ TagManager:
   - Camera
   - Interact
   - Gizmo
-  - 
-  - 
+  - GravityDetector
+  - Intangible
   - 
   - 
   - 

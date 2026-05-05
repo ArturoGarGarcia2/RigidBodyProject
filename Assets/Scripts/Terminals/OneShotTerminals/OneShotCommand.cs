@@ -7,6 +7,7 @@ public abstract class OneShotCommand : TerminalCommand
 
     public override void Execute()
     {
+        if(!canBeInteracted) return;
         if (used) return;
 
         used = true;

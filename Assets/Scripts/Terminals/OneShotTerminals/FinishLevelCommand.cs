@@ -6,6 +6,7 @@ public class FinishLevelCommand : OneShotCommand
 {
     protected override void OnExecute()
     {
+        if(!canBeInteracted) return;
         string currentScene = SceneManager.GetActiveScene().name;
 
         Match match = Regex.Match(currentScene, @"Level(\d+)");
