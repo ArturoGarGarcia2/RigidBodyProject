@@ -40,7 +40,7 @@ public class GravitableObject : MonoBehaviour
         ? localGravityDir 
         : GravityManager.worldGravityDir;
 
-    public void ChangeGravity(Vector3 newDir)
+    public virtual void ChangeGravity(Vector3 newDir)
     {
         useLocalGravity = true;
         localGravityDir = newDir.normalized;
@@ -52,7 +52,7 @@ public class GravitableObject : MonoBehaviour
         // rb.AddForce(localGravityDir * 5f, ForceMode.Impulse); 
     }
 
-    public void ResetToWorldGravity()
+    public virtual void ResetToWorldGravity()
     {
         useLocalGravity = false;
 

@@ -8,6 +8,7 @@ public class GravityZone : TerminalActivable
     public Renderer[] gravityFieldRenderers;
     public Transform parent;
     public bool mantainGravity;
+    public bool mantainPlayerGravity;
 
     void Start()
     {
@@ -172,5 +173,11 @@ public class GravityZone : TerminalActivable
             case Direction.BACK:    return new Color(1f, .5f, 0f);
             default:                return Color.white; 
         }
+    }
+
+    void OnValidate()
+    {
+        if(mantainGravity) mantainPlayerGravity = false;
+        if(mantainPlayerGravity) mantainGravity = false;
     }
 }

@@ -8,10 +8,40 @@ public class GenericGravityBody : GravitableObject, IRespawnable
     public bool allowX = true;
     public bool allowY = true;
     public bool allowZ = true;
+    public bool allowXrot = true;
+    public bool allowYrot = true;
+    public bool allowZrot = true;
+
+    void Start()
+    {
+        RigidbodyConstraints constraints = RigidbodyConstraints.None;
+
+        if (!allowX) constraints |= RigidbodyConstraints.FreezePositionX;
+        if (!allowY) constraints |= RigidbodyConstraints.FreezePositionY;
+        if (!allowZ) constraints |= RigidbodyConstraints.FreezePositionZ;
+        
+        if (!allowXrot) constraints |= RigidbodyConstraints.FreezeRotationX;
+        if (!allowYrot) constraints |= RigidbodyConstraints.FreezeRotationY;
+        if (!allowZrot) constraints |= RigidbodyConstraints.FreezeRotationZ;
+
+        rb.constraints = constraints;
+    }
 
     protected override void FixedUpdate()
     {
         ApplyFilteredGravity();
+        LateFixedUpdateCleanup();
+    }
+
+    void LateFixedUpdateCleanup()
+    {
+        Vector3 mask = new Vector3(allowX ? 1f : 0f, allowY ? 1f : 0f, allowZ ? 1f : 0f);
+
+        // Limpiar velocidad en ejes bloqueados
+        rb.linearVelocity = Vector3.Scale(rb.linearVelocity, mask);
+
+        // Opcional: eliminar rotaciones no deseadas
+        rb.angularVelocity = Vector3.zero;
     }
 
     private void ApplyFilteredGravity()
