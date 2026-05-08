@@ -213,6 +213,7 @@ public class PlayerController : GravitableObject, IRespawnable
     private Collider[] grabbedColliders;
     private bool[] originalIsTrigger;
     private Collider[] playerColliders;
+    private Transform originalParent;
 
     void Grab(RaycastHit hit)
     {
@@ -222,6 +223,9 @@ public class PlayerController : GravitableObject, IRespawnable
         {
             grabbedRb = rb;
             grabbedCollider = hit.collider;
+
+            originalParent = grabbedRb.transform.parent;
+            grabbedRb.transform.SetParent(holdPoint);
 
             grabbedColliders = grabbedRb.GetComponentsInChildren<Collider>();
 
@@ -270,6 +274,7 @@ public class PlayerController : GravitableObject, IRespawnable
             grabbedRb.linearDamping = 0f;
 
             SetHeldLayer(grabbedRb.gameObject, false);
+            grabbedRb.transform.SetParent(originalParent);
             
             grabbedRb.constraints = RigidbodyConstraints.None;
             grabbedRb.freezeRotation = false;
@@ -289,7 +294,7 @@ public class PlayerController : GravitableObject, IRespawnable
             grabbedRb.collisionDetectionMode = CollisionDetectionMode.Discrete;
 
             grabbedRb = null;
-            grabbedCollider = null;
+            grabbedCollider = null;originalParent = null;
         }
     }
 
@@ -306,6 +311,9 @@ public class PlayerController : GravitableObject, IRespawnable
     {
         Vector3 targetPos = holdPoint.position;
         Vector3 dir = targetPos - grabbedRb.position;
+
+        grabbedRb.position = holdPoint.position;
+        grabbedRb.rotation = holdPoint.rotation;
 
         grabbedRb.linearVelocity = dir * holdForce;
     }

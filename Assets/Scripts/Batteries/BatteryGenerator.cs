@@ -12,7 +12,7 @@ public class BatteryGenerator : MonoBehaviour
 
     void Start()
     {
-        SpawnBattery();
+        StartCoroutine(RespawnBattery());
     }
 
     void Update()
