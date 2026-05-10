@@ -120,14 +120,11 @@ public class DimensionRoom : MonoBehaviour
         if (t.isEcho) return;
         if (t.spawnedEcho != null) return;
 
-        GameObject prefabToSpawn = null;
+        GameObject prefabToSpawn =
+            t.GetEchoPrefab(dimension);
 
-        if (dimension == DimensionType.Ship)
-            prefabToSpawn = t.dungeonEchoPrefab;
-        else
-            prefabToSpawn = t.shipEchoPrefab;
-
-        if (prefabToSpawn == null || oppositeRoom == null) return;
+        if (prefabToSpawn == null || oppositeRoom == null)
+            return;
 
         Vector3 localPos =
             transform.InverseTransformPoint(t.transform.position);
@@ -141,7 +138,8 @@ public class DimensionRoom : MonoBehaviour
             t.transform.rotation
         );
 
-        DimensionalEchoer echoer = echo.GetComponent<DimensionalEchoer>();
+        DimensionalEchoer echoer =
+            echo.GetComponent<DimensionalEchoer>();
 
         if (echoer != null)
         {

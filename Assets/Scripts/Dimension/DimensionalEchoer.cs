@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class DimensionalEchoer : MonoBehaviour
 {
-    [Header("State")]
-    public DimensionType currentState;
-
     [Header("Echo Prefabs")]
     public GameObject shipEchoPrefab;
     public GameObject dungeonEchoPrefab;
@@ -22,11 +19,6 @@ public class DimensionalEchoer : MonoBehaviour
     }
 
     public bool isEcho = false;
-
-    public virtual void SetRoomState(DimensionType state)
-    {
-        currentState = state;
-    }
 
     public GameObject GetEchoPrefab(DimensionType fromRoom)
     {
