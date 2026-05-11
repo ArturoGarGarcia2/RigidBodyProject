@@ -158,9 +158,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece7f94512495bd4196e69edcdb0ec64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 1
-  futurePrefab: {fileID: 3654292766415447212, guid: e810b6231f846a94193b0ab650276818, type: 3}
-  hasCreatedFuture: 0
+  shipEchoPrefab: {fileID: 0}
+  dungeonEchoPrefab: {fileID: 0}
+  spawnedEcho: {fileID: 0}
+  manifestationPending: 0
+  isEcho: 0
 --- !u!114 &-4655298405803189226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +218,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.60151744, y: 0.87162954, z: 0.6095402}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.42, z: 0}
 --- !u!54 &7162681441941150100
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -387,7 +389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 483054, guid: 857b9bcf7311f5a49b829c4fd3cc791f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 483054, guid: 857b9bcf7311f5a49b829c4fd3cc791f, type: 3}
       propertyPath: m_LocalPosition.z

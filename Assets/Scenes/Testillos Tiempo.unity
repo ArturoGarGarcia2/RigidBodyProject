@@ -4136,6 +4136,7 @@ GameObject:
   m_Component:
   - component: {fileID: 530488653}
   - component: {fileID: 530488654}
+  - component: {fileID: 530488655}
   m_Layer: 0
   m_Name: Dungeon Chamber
   m_TagString: Untagged
@@ -4182,6 +4183,27 @@ MonoBehaviour:
   oppositeRoom: {fileID: 2135705353}
   roomRoot: {fileID: 530488653}
   objectsInside: []
+--- !u!65 &530488655
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530488652}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &532407046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7998,7 +8020,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c04d0456b4e2c894f907b3859346d597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTime: 1
 --- !u!4 &1314241535
 Transform:
   m_ObjectHideFlags: 0
