@@ -40,6 +40,11 @@ public class Portal : TerminalActivable {
         baseColor = portalMaterial.color;
     }
 
+    void Start()
+    {
+        SetActive(initialState);
+    }
+
     public override void SetActive(bool isActive){
         this.isActive = isActive;
         linkedPortal.isActive = isActive;
@@ -379,7 +384,7 @@ public class Portal : TerminalActivable {
         if (linkedPortal != null) {
             linkedPortal.linkedPortal = this;
             linkedPortal.isActive = isActive;
-            linkedPortal.initialState = initialState;
+            // linkedPortal.initialState = initialState;
         }
     }
 

@@ -37,4 +37,7 @@ public class BatteryGenerator : MonoBehaviour
             generationPoint.position,
             Quaternion.identity
         );
+    
+    public void DestroyBattery() => Destroy(currentBattery);
+    public bool HasLivingBattery() => currentBattery != null;
 }

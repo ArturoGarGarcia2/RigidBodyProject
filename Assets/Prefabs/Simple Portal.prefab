@@ -139,7 +139,6 @@ GameObject:
   - component: {fileID: 3743597651704331073}
   - component: {fileID: 3743597651704331078}
   - component: {fileID: 3743597651704331079}
-  - component: {fileID: 3743597651704331072}
   m_Layer: 0
   m_Name: Simple Portal
   m_TagString: Untagged
@@ -176,8 +175,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57b9885b89b6d4fbe92f77801ecc3671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portalRenderer: {fileID: 5291839106125732957}
   isActive: 1
+  initialState: 0
+  portalRenderer: {fileID: 5291839106125732957}
   linkedPortal: {fileID: 0}
   screen: {fileID: 3438419960765059613}
   recursionLimit: 2
@@ -204,33 +204,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.04, y: 2.69, z: 0.75}
   m_Center: {x: 0, y: 1.38, z: 0}
---- !u!54 &3743597651704331072
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3743597651704331074}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1001 &2480736533871096200
 PrefabInstance:
   m_ObjectHideFlags: 0

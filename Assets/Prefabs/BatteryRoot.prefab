@@ -118,7 +118,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7431171631016484316}
-  - component: {fileID: 4285837265118090128}
   - component: {fileID: -4655298405803189226}
   - component: {fileID: 5373195380568655216}
   - component: {fileID: 8375830703488707082}
@@ -146,23 +145,6 @@ Transform:
   - {fileID: 3685196077021351534}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4285837265118090128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3654292766415447212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ece7f94512495bd4196e69edcdb0ec64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shipEchoPrefab: {fileID: 0}
-  dungeonEchoPrefab: {fileID: 0}
-  spawnedEcho: {fileID: 0}
-  manifestationPending: 0
-  isEcho: 0
 --- !u!114 &-4655298405803189226
 MonoBehaviour:
   m_ObjectHideFlags: 0

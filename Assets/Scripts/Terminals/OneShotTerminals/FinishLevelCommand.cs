@@ -7,18 +7,29 @@ public class FinishLevelCommand : OneShotCommand
     protected override void OnExecute()
     {
         if(!canBeInteracted) return;
+
         string currentScene = SceneManager.GetActiveScene().name;
 
         Match match = Regex.Match(currentScene, @"Level(\d+)");
-        
+
         if (!match.Success)
         {
             Debug.LogError("Formato incorrecto: Level#");
             return;
         }
 
-        int nextLevel = int.Parse(match.Groups[1].Value) + 1;
+        int currentLevel = int.Parse(match.Groups[1].Value);
+
         GravityManager.ChangeWorldGravity(Vector3.down);
+
+        // Si acabó el último nivel
+        if (currentLevel >= 6)
+        {
+            SceneManager.LoadScene("MainMenu");
+            return;
+        }
+
+        int nextLevel = currentLevel + 1;
         SceneManager.LoadScene("Level" + nextLevel);
     }
 

@@ -9,6 +9,7 @@ public class GravitableObject : MonoBehaviour
     public bool useLocalGravity = false;
     public Vector3 localGravityDir = Vector3.down;
     public float gravityForce = 9.81f;
+public float maxFallSpeed = 30f;
     public bool isHeld = false;
 
     protected PortalTraveller traveller;
@@ -29,11 +30,23 @@ public class GravitableObject : MonoBehaviour
     {
         if (isHeld) return;
 
-        Vector3 gravityDir = useLocalGravity 
-            ? localGravityDir 
+        Vector3 gravityDir = useLocalGravity
+            ? localGravityDir
             : GravityManager.worldGravityDir;
 
         rb.AddForce(gravityDir * gravityForce, ForceMode.Acceleration);
+
+        // Limitar velocidad de caída
+        float fallSpeed = Vector3.Dot(rb.linearVelocity, gravityDir);
+
+        if (fallSpeed > maxFallSpeed)
+        {
+            Vector3 horizontalVelocity =
+                Vector3.ProjectOnPlane(rb.linearVelocity, gravityDir);
+
+            rb.linearVelocity =
+                horizontalVelocity + gravityDir * maxFallSpeed;
+        }
     }
 
     public Vector3 GetCurrentGravityDir() => useLocalGravity 

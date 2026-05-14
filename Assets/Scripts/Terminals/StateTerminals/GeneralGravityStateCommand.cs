@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class GeneralGravityStateCommand : StateCommand
 {
+    [Header("Terminal Target")]
     public GravityDirection direction;
 
     protected override void OnExecute(){

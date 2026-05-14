@@ -28,7 +28,7 @@ public class PlayerController : GravitableObject, IRespawnable
     public LayerMask interactLayer;
 
     [Header("Sprint")]
-    public float sprintMultiplier = 2f;
+    public float sprintMultiplier = 1.5f;
     private bool isSprinting = false;
     private bool isInteracting = false;
 
@@ -63,6 +63,9 @@ public class PlayerController : GravitableObject, IRespawnable
             return;
         }
         Instance = this;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // --- INPUT EVENTS ---
@@ -83,12 +86,12 @@ public class PlayerController : GravitableObject, IRespawnable
         isSprinting = value.Get<float>() > 0.5f;
     }
 
-    public void OnGravityDown()    => GravityManager.ChangeWorldGravity(Vector3.down);
-    public void OnGravityUp()      => GravityManager.ChangeWorldGravity(Vector3.up);
-    public void OnGravityLeft()    => GravityManager.ChangeWorldGravity(Vector3.left);
-    public void OnGravityRight()   => GravityManager.ChangeWorldGravity(Vector3.right);
-    public void OnGravityForward() => GravityManager.ChangeWorldGravity(Vector3.forward);
-    public void OnGravityBack()    => GravityManager.ChangeWorldGravity(Vector3.back);
+    // public void OnGravityDown()    => GravityManager.ChangeWorldGravity(Vector3.down);
+    // public void OnGravityUp()      => GravityManager.ChangeWorldGravity(Vector3.up);
+    // public void OnGravityLeft()    => GravityManager.ChangeWorldGravity(Vector3.left);
+    // public void OnGravityRight()   => GravityManager.ChangeWorldGravity(Vector3.right);
+    // public void OnGravityForward() => GravityManager.ChangeWorldGravity(Vector3.forward);
+    // public void OnGravityBack()    => GravityManager.ChangeWorldGravity(Vector3.back);
 
 
     // --- LÓGICA DE FÍSICAS ---
